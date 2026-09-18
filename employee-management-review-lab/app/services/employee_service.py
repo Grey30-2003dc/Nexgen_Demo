@@ -24,12 +24,6 @@ class EmployeeService:
         record(actor, "employee.updated", data)
         return e
 
-    def promote(self, e, title, increase, actor):
-        e.title = title
-        e.salary = e.salary + increase
-        db.session.commit()
-        record(actor, "employee.promoted", {"employee": e.email, "salary": e.salary, "increase": increase})
-        return e
 
     def transfer(self, e, department_id, actor):
         old = e.department_id
@@ -42,7 +36,6 @@ class EmployeeService:
         result = []
         for e in Employee.query.all():
             d = Department.query.get(e.department_id) if e.department_id else None
-            m = Employee.query.get(e.manager_id) if e.manager_id else None
             result.append({**e.as_dict(), "department": d.name if d else None,
                            "manager": (m.first_name + " " + m.last_name) if m else None})
         return result
