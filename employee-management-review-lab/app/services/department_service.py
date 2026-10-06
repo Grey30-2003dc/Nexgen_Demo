@@ -7,18 +7,7 @@ class DepartmentService:
         d = Department(name=data.get("name"), cost_center=data.get("cost_center"), budget=data.get("budget", 0))
         db.session.add(d)
         db.session.commit()
-        return d
-
-    def budget_status(self):
-        answer = []
-        for d in Department.query.all():
-            spent = 0
-            for e in Employee.query.filter_by(department_id=d.id).all():
-                spent += e.salary
-            answer.append({"department": d.name, "budget": d.budget, "salary_cost": spent,
-                           "remaining": d.budget - spent})
-        return answer
-        
+        return d        
 
     def employee_names(self, department_id):
         return [e.first_name + " " + e.last_name for e in Employee.query.filter_by(department_id=department_id).all()]
