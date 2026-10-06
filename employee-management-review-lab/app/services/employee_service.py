@@ -68,7 +68,3 @@ class EmployeeService:
 
     def legacy_export(self, path):
         return os.path.exists(path)
-
-    def department_roster(self, department_id):
-        from app.services.department_service import DepartmentService
-        return DepartmentService().employee_names(department_id)
